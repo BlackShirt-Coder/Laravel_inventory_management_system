@@ -23,14 +23,18 @@ Route::get('/dashboard', function () {
     return view('admin.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+/*Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+});*/
 Route::middleware('auth')->group(function () {
     Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
 
+});
+Route::controller(AdminController::class)->group(function(){
+    Route::get('admin/profile',[AdminController::class,'Profile'])->name('admin.profile');
+    Route::get('admin/profile/edit',[AdminController::class,'ProfileEdit'])->name('admin.edit');
 });
 
 require __DIR__.'/auth.php';
